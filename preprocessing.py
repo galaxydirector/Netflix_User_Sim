@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import time
 
-path = '/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt' 
+path = os.path.expanduser('./Netflix_data.txt')
 
 def import_preprocess(path):
 	####################### 1. read txt
@@ -53,6 +53,9 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	####################### 4. put into a dict, and store into a matrix
 	# sort user number
 	sorted_username = sorted(list(final_rows_wo_movienames.groupby('user').count().index))
+	###########################
+	user_dic = dict(zip(sorted_username, list(range(0,len(sorted_username)))))
+	###########################
 	user_num = len(sorted_username)
 	matrix_shape = (len(movie_row),user_num)
 	print("matrix shape: ",matrix_shape)
@@ -61,14 +64,24 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	for movie in range(len(movie_row)):
 
 		# given a list of users, find the index in sorted_username
+		#s1 = time.time()
+
 		users = data_dict[movie]
-		index_list = [sorted_username.index(i) for i in sorted(users)]
-		
+
+		############################
+		#index_list = [sorted_username.index(i) for i in users]
+		index_list = [user_dic[i] for i in users]
+		############################
+		#print("part1  "+str(time.time()-s1));
+
+
+
 		# have the row to be 1 at index, else to be 0
+		#s2 = time.time()
 		row_arr = matrix_output[movie]
 		for ind in index_list:
 			row_arr[ind]=1
-
+		#print("part2  "+str(time.time()-s2));
 		if movie % 20 == 0:
 			print("processing movie No. {}".format(movie))
 
