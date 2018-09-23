@@ -69,10 +69,12 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 		#s1 = time.time()
 
 		users = data_dict[movie]
-
 		############################
 		#index_list = [sorted_username.index(i) for i in users]
+		#print(index_list)
+		#print("----------------------")
 		index_list = [user_dic[i] for i in users]
+		#print(index_list)
 		############################
 		#print("part1  "+str(time.time()-s1));
 
@@ -87,9 +89,9 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 		if movie % 20 == 0:
 			print("processing movie No. {}".format(movie))
 
-	export_path = os.path.join(path,'converted_data.csv')
-	np.savetxt(os.path.expanduser(export_path), np.array(matrix_output), delimiter=',')
-
+	#export_path = os.path.join(path,'converted_data.csv')
+	#export_path = "./gvghy.csv"
+	#np.savetxt(os.path.expanduser(export_path), np.array(matrix_output), delimiter=',')
 	return matrix_output
 
 
@@ -103,12 +105,12 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 # 		threads.append(thread)
 
 
-start_time = time.time()
-final_rows_wo_movienames, movie_row = import_preprocess(path)
-print(time.time()-start_time)
-data_dict = convert_into_dict(final_rows_wo_movienames, movie_row)
-print(time.time()-start_time)
-start_threads(n_threads=4)
-# matrix_output = parellel_convert_to_matrix(final_rows_wo_movienames, movie_row, data_dict)
-# matrix_output = convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict)
-print(time.time()-start_time)
+if __name__ == '__main__':
+	start_time = time.time()
+	final_rows_wo_movienames, movie_row = import_preprocess(path)
+	print(time.time()-start_time)
+	data_dict = convert_into_dict(final_rows_wo_movienames, movie_row)
+	print(time.time()-start_time)
+	matrix_output = convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict)
+	print(time.time()-start_time)
+
