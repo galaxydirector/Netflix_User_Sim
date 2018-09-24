@@ -63,7 +63,7 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	matrix_shape = (len(movie_row),user_num)
 	print("matrix shape: ",matrix_shape)
 
-	matrix_output = np.zeros(shape=matrix_shape)
+	matrix_output = np.zeros(shape=matrix_shape,dtype=int)
 	for movie in range(len(movie_row)):
 
 		# given a list of users, find the index in sorted_username
