@@ -64,35 +64,29 @@ def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	print("matrix shape: ",matrix_shape)
 
 	matrix_output = np.zeros(shape=matrix_shape,dtype=int)
-	for movie in range(len(movie_row)):
-
+	for movie in range(5):
+		#len(movie_row)
 		# given a list of users, find the index in sorted_username
 		#s1 = time.time()
 
 		users = data_dict[movie]
 		############################
 		#index_list = [sorted_username.index(i) for i in users]
-		#print(index_list)
-		#print("----------------------")
 		index_list = [user_dic[i] for i in users]
-		#print(index_list)
 		############################
-		#print("part1  "+str(time.time()-s1));
+
 
 
 
 		# have the row to be 1 at index, else to be 0
-		#s2 = time.time()
+
 		row_arr = matrix_output[movie]
 		for ind in index_list:
 			row_arr[ind]=1
-		#print("part2  "+str(time.time()-s2));
+
 		if movie % 20 == 0:
 			print("processing movie No. {}".format(movie))
 
-	#export_path = os.path.join(path,'converted_data.csv')
-	#export_path = "./gvghy.csv"
-	#np.savetxt(os.path.expanduser(export_path), np.array(matrix_output), delimiter=',')
 	return matrix_output
 
 

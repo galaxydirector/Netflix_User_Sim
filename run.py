@@ -23,5 +23,5 @@ print("Matirx completed!")
 
 ###############problem 2
 avg_dist, min_dist = output_avg_min_img(matrix_output)
-print("avg_dist",avg_dist)
-print("min_dist",min_dist)
+# print("avg_dist",avg_dist)
+# print("min_dist",min_dist)

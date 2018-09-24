@@ -29,7 +29,6 @@ def jaccard_distance(col_1, col_2):
 
 	return 1 - jaccard_sim
 
-
 def calculate_batch_distance(data_matrix, n= 10000):
 	# data_matrix = np.zeros((5,231424))
 	distance_list = []
@@ -48,7 +47,7 @@ def output_avg_min_img(data_matrix):
 	print("average distance",sum(distance_list)/len(distance_list))
 	print("smallest distance",min(distance_list))
 
-	n, bins, patches = plt.hist(x=distance_list, bins='auto', color='#0504aa')
+	figure = plt.hist(x=distance_list, bins=10, color='#0504aa')
 
 	plt.xlabel('no. pairs')
 	plt.ylabel('Frequency')
