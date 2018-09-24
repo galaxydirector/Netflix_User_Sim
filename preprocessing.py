@@ -2,10 +2,9 @@ import numpy as np
 import pandas as pd
 import os
 import time
-import threading
-# from tqdm import tqdm
 
-path = os.path.expanduser('./Netflix_data.txt')
+# path = os.path.expanduser('./Netflix_data.txt')
+path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
 
 def import_preprocess(path):
 	####################### 1. read txt
@@ -35,6 +34,8 @@ def import_preprocess(path):
 	final_rows_wo_movienames = rows_wo_movienames[rows_wo_movienames['rate'] != 0]
 
 	print("import_preprocess completed")
+	# no. user = 231,424
+	# no. movie = 4499
 	return final_rows_wo_movienames, movie_row
 
 def convert_into_dict(final_rows_wo_movienames, movie_row):
