@@ -32,20 +32,27 @@ def get_sig_dic(hash_num,user_num,user_dic,prime):
 			sig[i][user]=min(list(map(lambda x: (x*a+b)/prime, user_dic[user])))
 	return sig
 
-def find_sim(sig,thre,r,p):
+def find_sim(sig,thre,r,prime):
+	'''
+	r - the number of bands
+	prime - a large prime number
+	'''
 	pairs = []
 	bands = int(sig.shape[0]/r)
+	print(str(bands)+" bands to be processed.")
 	for i in range(0,bands):
-		a = random.randint(0,p)
-		b = random.randint(0,p)
+		bucket = {}
+		a = random.randint(0,prime)
+		b = random.randint(0,prime)
 		for j in range(0,sig.shape[1]):
-			tempHash1 = (sig[i*r:(i+1)*r,j]*a+b)/p
+			tempHash1 = (sig[i*r:(i+1)*r,j]*a+b)/prime
 			for k in range(j+1,sig.shape[1]):
 				if((j,k) in pairs):
 					continue
-				tempHash2 = (sig[i*r:(i+1)*r,k]*a+b)/p
+				tempHash2 = (sig[i*r:(i+1)*r,k]*a+b)/prime
 				if((tempHash1==tempHash2).all()):
 					pairs.append((j,k))
+		print(str(i)+" bands completed.")
 	final_pairs = []
 	for (i,j) in pairs:
 		count = 0
