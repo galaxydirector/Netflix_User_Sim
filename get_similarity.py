@@ -23,6 +23,15 @@ def get_sig(num,data,r):
 			sig[i][col] = tempMin
 	return sig
 
+def get_sig_dic(hash_num,user_num,user_dic,prime):
+	sig = np.empty((hash_num,user_num))
+	for i in range(0,hash_num):
+		a = random.randint(0,prime-1)
+		b = random.randint(0,prime-1)
+		for user in user_dic.keys():
+			sig[i][user]=min(list(map(lambda x: (x*a+b)/prime, user_dic[user])))
+	return sig
+
 def find_sim(sig,thre,r,p):
 	pairs = []
 	bands = int(sig.shape[0]/r)

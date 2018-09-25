@@ -4,7 +4,7 @@ import os
 import time
 
 # path = os.path.expanduser('./Netflix_data.txt')
-path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
+path = os.path.expanduser('./Netflix_data.txt')
 
 def import_preprocess(path):
 	####################### 1. read txt
@@ -47,8 +47,19 @@ def convert_into_dict(final_rows_wo_movienames, movie_row):
 											 (final_rows_wo_movienames.index>lowerbound)]
 		user_list = list(value['user'])
 		data_dict[movie] = user_list
+	# if use dic directly
+	sorted_username = sorted(list(final_rows_wo_movienames.groupby('user').count().index))
+	user_dic = dict(zip(sorted_username, list(range(0,len(sorted_username)))))
+	for movie in data_dict.keys():
+		users = data_dict[movie]
+		index_list = [user_dic[i] for i in users]
+		data_dict[movie] = index_list
+	user_dic={}
+	for movie in data_dict.keys():
+		for user in data_dict[movie]:
+			user_dic.setdefault(user,[]).append(movie)
 	print("convert_into_dict completed")
-	return data_dict
+	return (user_dic,len(sorted_username))
 
 def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	# matrix saves as a form of np.array
