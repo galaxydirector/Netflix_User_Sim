@@ -59,7 +59,7 @@ def convert_into_dict(final_rows_wo_movienames, movie_row):
 		for user in data_dict[movie]:
 			user_dic.setdefault(user,[]).append(movie)
 	print("convert_into_dict completed")
-	return (user_dic,len(sorted_username))
+	return (user_dic,sorted_username)
 
 def convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict):
 	# matrix saves as a form of np.array
