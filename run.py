@@ -3,19 +3,35 @@ from get_similarity import *
 from thousand_jaccard import *
 import time
 
-start_time = time.time()
+
+### seting all the parameters
+hash_num = 160
+prime_minhash = 163
+threshold = 0.65
+lenth_band = 8
+prime_bucket = 541
+
+### start processing 
 final_rows_wo_movienames, movie_row = import_preprocess(path)
-#print(time.time()-start_time)
 user_dict,user_num = convert_into_dict(final_rows_wo_movienames, movie_row)
+
+### find signature matrix
 s = time.time()
-sig = get_sig_dic(160,user_num,user_dict,163)
+sig = get_sig_dic(hash_num,user_num,user_dict,prime_minhash)
 print("Signature matrix completed. Time: "+ str(time.time()-s))
+
+### find similar pairs
 s = time.time()
-pairs = find_sim(sig,0.65,8,541)
+pairs = find_sim(sig,threshold,lenth_band,prime_bucket)
 print(pairs)
 print(time.time()-s)
-#print(time.time()-start_time)
-#matrix_output = convert_dict_to_matrix(final_rows_wo_movienames, movie_row, data_dict)
+
+
+
+
+
+
+
 
 
 # #######################
