@@ -2,6 +2,7 @@ from preprocessing import *
 from get_similarity import *
 from thousand_jaccard import *
 import time
+import numpy as np
 
 
 ### seting all the parameters
@@ -21,9 +22,11 @@ sig = get_sig_dic(hash_num,user_num,user_dict,prime_minhash)
 print("Signature matrix completed. Time: "+ str(time.time()-s))
 
 ### find similar pairs
+#sig = np.zeros((160,20000),dtype = int)
 s = time.time()
-pairs = find_sim(sig,threshold,lenth_band,prime_bucket)
+pairs = find_sim_dic(sig,threshold,lenth_band,prime_bucket)
 print(pairs)
+print(str(len(pairs)) + " pairs found")
 print(time.time()-s)
 
 
