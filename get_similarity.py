@@ -34,7 +34,7 @@ def get_sig_dic(hash_num,user_num,user_dic,prime):
 
 def find_sim(sig,thre,r,prime):
 	'''
-	r - the number of bands
+	r - the length of bands
 	prime - a large prime number
 	'''
 	pairs = []
