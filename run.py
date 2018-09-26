@@ -9,8 +9,8 @@ import numpy as np
 hash_num = 160
 prime_minhash = 4507
 threshold = 0.65
-lenth_band = 8
-prime_bucket = 541
+lenth_band = 4
+prime_bucket = 4523
 
 ### start processing 
 final_rows_wo_movienames, movie_row = import_preprocess(path)
@@ -24,7 +24,7 @@ print("Signature matrix completed. Time : "+ str(time.time()-s))
 ### find similar pairs
 #sig = np.zeros((160,20000),dtype = int)
 s = time.time()
-pairs = find_sim_dic(sig,threshold,lenth_band,prime_bucket)
+pairs = find_sim_dic(sig,threshold,lenth_band,prime_bucket，sorted_username)
 print(pairs)
 print(str(len(pairs)) + " pairs found. Time: " + str(time.time()-s))
 

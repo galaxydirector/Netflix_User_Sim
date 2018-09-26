@@ -64,7 +64,7 @@ def find_sim(sig,thre,r,prime):
 			final_pairs.append((i,j))
 	return final_pairs
 
-def find_sim_dic(sig,thre,r,prime):
+def find_sim_dic(sig,thre,r,prime,sorted_username):
 	'''
 	r - the length of bands
 	prime - a large prime number
@@ -106,7 +106,7 @@ def find_sim_dic(sig,thre,r,prime):
 	for (i,j) in candidates:
 		count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
 		if(float(count)/float(sig.shape[0])>=thre):
-			final_pairs.append((i,j))
+			final_pairs.append((sorted_username[i],sorted_username[j]))
 	return final_pairs
 
 # syn_data
