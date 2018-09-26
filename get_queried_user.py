@@ -1,4 +1,4 @@
-def get_queried_user(pairs, queried_user_id, sorted_user_name):
+def get_queried_user(pairs, queried_user_id):
 	user_index = sorted_username.index(queried_user_id)
 	ret = []
 	for pair in pairs:
@@ -7,5 +7,5 @@ def get_queried_user(pairs, queried_user_id, sorted_user_name):
 				partner = pair[1]
 			else:
 				partner = pair[0]
-				ret.append(sorted_username[partner])
+			ret.append(partner)
 	return ret
