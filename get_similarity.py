@@ -24,12 +24,26 @@ def get_sig(num,data,r):
 			sig[i][col] = tempMin
 	return sig
 
-def get_sig_dic(hash_num,user_num,user_dic,prime):
+def get_sig_dic_old(hash_num,user_num,user_dic,prime):
+	############# Yanci's Question: Is len(user_dic)==user_num? #############
+	############# if so, we could reduce a input ############################
+
 	sig = np.empty((hash_num,user_num),dtype = int)
 	for i in range(0,hash_num):
 		a = random.randint(0,prime-1)
 		b = random.randint(0,prime-1)
 		for user in user_dic.keys():
+			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
+	return sig
+
+def get_sig_dic(hash_num,user_dic,prime):
+	sig = np.empty((hash_num,len(user_dic)),dtype = int)
+
+	for i in range(0,hash_num):
+		a = random.randint(0,prime-1)
+		b = random.randint(0,prime-1)
+		for user in user_dic.keys():
+			print("user_dic.keys()", user)
 			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
 	return sig
 
@@ -54,6 +68,7 @@ def find_sim(sig,thre,r,prime):
 				if((tempHash1==tempHash2).all()):
 					pairs.append((j,k))
 		print(str(i)+" bands completed.")
+
 	final_pairs = []
 	for (i,j) in pairs:
 		count = 0
@@ -66,9 +81,16 @@ def find_sim(sig,thre,r,prime):
 
 def find_sim_dic(sig,thre,r,prime,sorted_username):
 	'''
+	sig - (hash_num, user_num)
 	r - the length of bands
 	prime - a large prime number
 	'''
+
+	"""
+	Question:
+	1. tempHash1, do you have to hash here or just compare each two?
+	2. counter candidates.add((l[i],l[j])) user index instead of range(size)?
+	"""
 	buckets = []
 	bands = int(sig.shape[0]/r)
 	print(str(bands)+" bands to be processed.")
@@ -77,7 +99,6 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 		a = random.randint(0,prime)
 		b = random.randint(0,prime)
 		for j in range(0,sig.shape[1]):
-		#for j in range(0,1):
 			s = time.time()
 			tempHash1 = tuple((sig[i*r:(i+1)*r,j]*a+b)%prime)
 			#print("time line 1: "+ str(time.time()-s))
@@ -85,23 +106,29 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 			bucket.setdefault(tempHash1,[]).append(j)
 			#print("time line 2: "+ str(time.time()-s))
 		buckets.append(bucket)
-		print(str(i+1)+" bands completed.")
+		print("band {} completed.".format(str(i+1)))
+
+	##################################################################
+	# this is a counter?
 	candidates = set()
 	a = 1
 	for bucket in buckets:
-		print("Looking for candidate pairs in bucket "+str(a))
-		#print("Total groups: "+ str(len(bucket)))
+		print("Looking for candidate pairs in bucket ",str(a))
 		for l in bucket.values():
 			size = len(l)
 			#print("Current Group size" + str(len(l)))
 			if size==1:
 				continue;
-			for i in range(size):
+			# set up comparison paris for each two elements
+			for i in range(size): 
 				for j in range(i+1,size):
-					#if (i,j) not in candiates:
 					candidates.add((i,j))
+					# do you actually want to write:
+					# candidates.add((l[i],l[j])) where l[i] is the index of users
 		a = a + 1
 	print(str(len(candidates))+" condidates found!")
+	##################################################################
+
 	final_pairs = []
 	for (i,j) in candidates:
 		count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
