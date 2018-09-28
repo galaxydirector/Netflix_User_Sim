@@ -14,7 +14,7 @@ prime_bucket = 4523
 
 ### start processing 
 final_rows_wo_movienames, movie_row = import_preprocess(path)
-user_dict,sorted_username = convert_into_dict(final_rows_wo_movienames, movie_row)
+_, user_dict,sorted_username = convert_into_dict(final_rows_wo_movienames, movie_row)
 
 ### find signature matrix
 s = time.time()

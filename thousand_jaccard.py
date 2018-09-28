@@ -49,7 +49,7 @@ def output_avg_min_img(data_matrix):
 
 	figure = plt.hist(x=distance_list, bins=10, color='#0504aa')
 
-	plt.xlabel('no. pairs')
+	plt.xlabel('No. pairs')
 	plt.ylabel('Frequency')
 	plt.title('Histogram of random 10,000 pairs distance')
 	plt.savefig(os.path.expanduser('histogram.png'))
