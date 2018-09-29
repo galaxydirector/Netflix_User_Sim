@@ -143,7 +143,15 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 
 	print("final pairs takes {} seconds".format(time.time()-start) )
 	
-	
+
+	################################# multiprocessing ################
+	# NUM_JOBS = len(folder_paths)
+	# NUM_PROCESSES = 3 # number of cores you want to ultilize
+
+	# with Pool(processes=NUM_PROCESSES) as p:
+	# 	with tqdm(total=NUM_JOBS, desc='Parallel Processing') as pbar:
+	# 		for result in p.imap_unordered(self.zip_it, folder_paths):
+	# 			pbar.update()
 
 	# np.savetxt('final_pairs.txt',final_pairs,delimiter=',')
 	# np.savetxt('final_pairs_ind.txt',final_pairs_ind,delimiter=',')
