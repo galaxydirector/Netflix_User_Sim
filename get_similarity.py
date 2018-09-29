@@ -132,48 +132,17 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 	print("time to go through 4 for loops to find pairs: {}".format(time.time()-start))
 	##################################################################
 
-	# start = time.time()
-	# final_pairs = []
-	# final_pairs_ind = []
-	# for (i,j) in candidates:
-	# 	count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-	# 	if(float(count)/float(sig.shape[0])>=thre):
-	# 		final_pairs.append((sorted_username[i],sorted_username[j]))
-	# 		final_pairs_ind.append((i,j))
+	start = time.time()
+	final_pairs = []
+	final_pairs_ind = []
+	for (i,j) in candidates:
+		count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
+		if(float(count)/float(sig.shape[0])>=thre):
+			final_pairs.append((sorted_username[i],sorted_username[j]))
+			final_pairs_ind.append((i,j))
 
 	# print("final pairs takes {} seconds".format(time.time()-start) )
 	
-
-	################################# multiprocessing ################
-	# final_pairs = []
-	# final_pairs_ind = []
-	# for (i,j) in candidates:
-	# print()
-
-	def hard_cock(pair):
-		i = pair[0]
-		j = pair[1]
-		count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-		if(float(count)/float(sig.shape[0])>=thre):
-			return (sorted_username[i],sorted_username[j]), (i,j)
-
-	final_pairs = []
-	final_pairs_ind = []
-
-	NUM_JOBS = len(candidates)
-	NUM_PROCESSES = 3 # number of cores you want to ultilize
-
-	with Pool(processes=NUM_PROCESSES) as p:
-		with tqdm(total=NUM_JOBS, desc='Parallel Processing') as pbar:
-			for result in p.imap_unordered(hard_cock, candidates):
-				final_pairs.append(result[0])
-				final_pairs_ind.append(result[1])
-				pbar.update()
-
-
-	# np.savetxt('final_pairs.txt',final_pairs,delimiter=',')
-	# np.savetxt('final_pairs_ind.txt',final_pairs_ind,delimiter=',')
-
 	return final_pairs, final_pairs_ind
 
 def jaccard_similarity(list_1, list_2):

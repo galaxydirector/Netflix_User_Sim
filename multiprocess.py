@@ -1,5 +1,10 @@
 # multiprocess
-
+import numpy as np
+import random
+import time
+import multiprocessing as mp
+from multiprocessing import Pool, cpu_count
+from tqdm import tqdm
 
 
 class find_sim_dic():
@@ -48,8 +53,6 @@ class find_sim_dic():
 			buckets.append(bucket)
 			print("band {} completed.".format(str(i+1)))
 
-		##################################################################
-		# this is a counter?
 		start = time.time()
 		candidates = set()
 		a = 1
@@ -69,35 +72,15 @@ class find_sim_dic():
 			a = a + 1
 		print(str(len(candidates))+" condidates found!")
 		print("time to go through 4 for loops to find pairs: {}".format(time.time()-start))
-		##################################################################
 
 		return candidates
-
-
-	# start = time.time()
-	# final_pairs = []
-	# final_pairs_ind = []
-	# for (i,j) in candidates:
-	# 	count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-	# 	if(float(count)/float(sig.shape[0])>=thre):
-	# 		final_pairs.append((sorted_username[i],sorted_username[j]))
-	# 		final_pairs_ind.append((i,j))
-
-	# print("final pairs takes {} seconds".format(time.time()-start) )
-	
-
-	################################# multiprocessing ################
-	# final_pairs = []
-	# final_pairs_ind = []
-	# for (i,j) in candidates:
-	# print()
 
 	def hard_cock(self, pair):
 		i = pair[0]
 		j = pair[1]
 		count = sum(self.sig[:,i].reshape(-1)==self.sig[:,j].reshape(-1))
 		if(float(count)/float(self.sig.shape[0])>=self.thre):
-			return (self.sorted_username[i],self.sorted_username[j]), (i,j)
+			return ((self.sorted_username[i],self.sorted_username[j]), (i,j))
 
 	def findpairs_multiprocess(self):
 		final_pairs = []
@@ -110,7 +93,9 @@ class find_sim_dic():
 
 		with Pool(processes=NUM_PROCESSES) as p:
 			with tqdm(total=NUM_JOBS, desc='Parallel Processing') as pbar:
-				for result in p.imap_unordered(hard_cock, candidates):
+				for result in p.imap_unordered(self.hard_cock, candidates):
+					print("result", result)
+					print("tyep of result", type(result))
 					final_pairs.append(result[0])
 					final_pairs_ind.append(result[1])
 					pbar.update()
