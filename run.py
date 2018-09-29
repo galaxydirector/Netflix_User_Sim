@@ -27,8 +27,8 @@ matrix_output = convert_dict_to_matrix(sorted_username, movie_row, data_dict)
 
 ### find signature matrix
 s = time.time()
-# sig = get_sig_dic(hash_num,len(sorted_username),user_dict,prime_minhash,num_hash_per_band)
-sig = get_sig_dic(hash_num,user_dict,prime_minhash)
+sig = get_sig_dic(hash_num,len(sorted_username),user_dict,prime_minhash,num_hash_per_band)
+# sig = get_sig_dic(hash_num,user_dict,prime_minhash)
 print("Signature matrix completed. Time : "+ str(time.time()-s))
 
 # ### find similar pairs
@@ -41,26 +41,25 @@ print("Signature matrix completed. Time : "+ str(time.time()-s))
 ### for a queried user
 
 
+#######################################attempt to do multithread
+# def start_threads(n_threads=4):
+# 	threads =[]
+# 	for _ in range(n_threads):
+# 		thread = threading.Thread(target=find_sim_dic, args=(sig,threshold,length_per_band,prime_bucket,sorted_username,num_hash_per_band,))
+# 		thread.daemon = True  # Thread will close when parent quits.
+# 		thread.start()
+# 		threads.append(thread)
 
-def start_threads(n_threads=4):
-	threads =[]
-	for _ in range(n_threads):
-		thread = threading.Thread(target=find_sim_dic, args=(sig,threshold,length_per_band,prime_bucket,sorted_username,num_hash_per_band,))
-		thread.daemon = True  # Thread will close when parent quits.
-		thread.start()
-		threads.append(thread)
+# s = time.time()
+# # multithreading
+# coord = tf.train.Coordinator()
+# with tf.Session() as sess:
+# 	threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+# 	start_threads()
 
-
-s = time.time()
-# multithreading
-coord = tf.train.Coordinator()
-with tf.Session() as sess:
-	threads = tf.train.start_queue_runners(sess=sess, coord=coord)
-	start_threads()
-
-	coord.request_stop()
-	coord.join(threads)
-print("Time: " + str(time.time()-s))
+# 	coord.request_stop()
+# 	coord.join(threads)
+# print("Time: " + str(time.time()-s))
 
 
 

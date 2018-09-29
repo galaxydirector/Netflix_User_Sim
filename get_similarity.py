@@ -78,7 +78,7 @@ def find_sim(sig,thre,r,prime):
 			final_pairs.append((i,j))
 	return final_pairs
 
-def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band):
+def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band=5):
 	'''
 	sig - (hash_num, user_num)
 	r - the length of bands
