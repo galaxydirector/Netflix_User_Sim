@@ -148,53 +148,50 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 
 
 
-	# ##################### attempt to multithread it 
-	# final_pairs = []
-	# final_pairs_ind = []
-	# for (i,j) in candidates:
-	# 	count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-	# 	if(float(count)/float(sig.shape[0])>=thre):
-	# 		final_pairs.append((sorted_username[i],sorted_username[j]))
-	# 		final_pairs_ind.append((i,j))
+	##################### attempt to multithread it 
+	final_pairs = []
+	final_pairs_ind = []
+	def hard_cock():
+		for (i,j) in candidates:
+			count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
+			if(float(count)/float(sig.shape[0])>=thre):
+				final_pairs.append((sorted_username[i],sorted_username[j]))
+				final_pairs_ind.append((i,j))
 
 	# def start_threads(n_threads=4):
-	# 	threads =[]
-	# 	for _ in range(n_threads):
-	# 		thread = threading.Thread(target=find_sim_dic, args=(sig,threshold,length_per_band,prime_bucket,sorted_username,))
-	# 		thread.daemon = True  # Thread will close when parent quits.
-	# 		thread.start()
-	# 		threads.append(thread)
+	threads =[]
+	for _ in range(4):
+		thread = threading.Thread(target=hard_cock)
+		thread.daemon = True  # Thread will close when parent quits.
+		thread.start()
+		threads.append(thread)
 
-	# 	return threads
+	[i.join() for i in threads]
 
 	np.savetxt('final_pairs.txt',final_pairs,delimiter=',')
 	np.savetxt('final_pairs_ind.txt',final_pairs_ind,delimiter=',')
 	return final_pairs, final_pairs_ind
 
-def jaccard_distance(col_1, col_2):
+def jaccard_similarity(list_1, list_2):
 	"""input as two lists, output jaccard_distance as a float"""
 	# sanity
-	arr1 = np.array(col_1).reshape(-1,)
-	arr2 = np.array(col_2).reshape(-1,)
+	arr1 = np.array(list_1).reshape(-1,)
+	arr2 = np.array(list_2).reshape(-1,)
 
-	intersection = 0
-	union = 0
-	for i in range(len(arr1)):
+	union = set()
+	union = union.add(user_dic[i])
+	union = union.add(user_dic[j])
 
-		if arr1[i] == 1 and arr2[i] ==1:
-			intersection +=1
-			union +=1
-		elif arr1[i] != arr2[i]:
-			union +=1
+	intersection = user_dic[i].intersection(set(user_dic[j]))
+	jaccard_similarity = len(intersection)/len(union)
 
-	jaccard_sim = intersection/union
+	return jaccard_similarity
 
-	return 1 - jaccard_sim
-
-def pair_distance(user_dic,final_pairs_ind):
+def pair_similarity(user_dic,final_pairs_ind):
 	output = []
 	for (i,j) in final_pairs_ind:
-		output.append(jaccard_distance(user_dic[i],user_dic[j]))
+		jaccard_sim= jaccard_similarity(user_dic[i],user_dic[j])
+		output.append(jaccard_sim)
 
 	return output
 
