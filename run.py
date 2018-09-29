@@ -1,6 +1,7 @@
 from preprocessing import *
 from get_similarity import *
 from thousand_jaccard import *
+from multiprocess import *
 import time
 import numpy as np
 # import tensorflow as tf
@@ -34,9 +35,17 @@ print("Signature matrix completed. Time : "+ str(time.time()-s))
 # ### find similar pairs
 # #sig = np.zeros((160,20000),dtype = int)
 s = time.time()
-pairs, final_pairs_ind = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
+sim_class = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
+pairs, final_pairs_ind = sim_class.findpairs_multiprocess()
+# pairs, final_pairs_ind = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
 # # print(pairs)
 print(str(len(pairs)) + " pairs found. Time: " + str(time.time()-s))
+
+############################Yanci multiprocess
+
+
+
+
 
 ### for a queried user
 
