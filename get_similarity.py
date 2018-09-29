@@ -78,7 +78,7 @@ def find_sim(sig,thre,r,prime):
 			final_pairs.append((i,j))
 	return final_pairs
 
-def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band=5):
+def find_sim_dic(sig,thre,r,prime,sorted_username):
 	'''
 	sig - (hash_num, user_num)
 	r - the length of bands
@@ -96,12 +96,12 @@ def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band=5):
 	for i in range(0,bands):
 		bucket = {}
 
-		a = [random.randint(0,prime) for i in range(num_hash_per_band)]
-		b = [random.randint(0,prime) for i in range(num_hash_per_band)]
+		a = [random.randint(0,prime) for i in range(r)]
+		b = [random.randint(0,prime) for i in range(r)]
 		for j in range(0,sig.shape[1]):
 			s = time.time()
 			tempHash = 0;
-			for k in range(num_hash_per_band):
+			for k in range(r):
 				tempHash += (sig[i*r:(i+1)*r,j]*a[k]+b[k])%prime
 
 			#print("time line 1: "+ str(time.time()-s))
