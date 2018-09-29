@@ -43,7 +43,6 @@ def get_sig_dic(hash_num,user_dic,prime):
 		a = random.randint(0,prime-1)
 		b = random.randint(0,prime-1)
 		for user in user_dic.keys():
-			# print("user_dic.keys()", user)
 			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
 	return sig
 
@@ -96,17 +95,19 @@ def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band):
 	print(str(bands)+" bands to be processed.")
 	for i in range(0,bands):
 		bucket = {}
-		# for _ in range(num_hash_per_band):
-		a = random.randint(0,prime)
-		b = random.randint(0,prime)
+
+		a = [random.randint(0,prime) for i in range(num_hash_per_band)]
+		b = [random.randint(0,prime) for i in range(num_hash_per_band)]
 		for j in range(0,sig.shape[1]):
 			s = time.time()
-			############################more than one hash????###############
-			tempHash1 = tuple((sig[i*r:(i+1)*r,j]*a+b)%prime)
+			tempHash = 0;
+			for k in range(num_hash_per_band):
+				tempHash += (sig[i*r:(i+1)*r,j]*a[k]+b[k])%prime
 
 			#print("time line 1: "+ str(time.time()-s))
+			tempHash = tuple(tempHash)
 			s = time.time()
-			bucket.setdefault(tempHash1,[]).append(j)
+			bucket.setdefault(tempHash,[]).append(j)
 			#print("time line 2: "+ str(time.time()-s))
 		buckets.append(bucket)
 		print("band {} completed.".format(str(i+1)))
@@ -126,7 +127,6 @@ def find_sim_dic(sig,thre,r,prime,sorted_username,num_hash_per_band):
 			# set up comparison paris for each two elements
 			for i in range(size): 
 				for j in range(i+1,size):
-					# candidates.add((i,j))
 					candidates.add((l[i],l[j]))
 					# do you actually want to write:
 					# candidates.add((l[i],l[j])) where l[i] is the index of users
