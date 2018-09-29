@@ -3,8 +3,8 @@ from get_similarity import *
 from thousand_jaccard import *
 import time
 import numpy as np
-import tensorflow as tf
-import threading
+# import tensorflow as tf
+# import threading
 
 
 ### seting all the parameters
@@ -27,16 +27,16 @@ matrix_output = convert_dict_to_matrix(sorted_username, movie_row, data_dict)
 
 ### find signature matrix
 s = time.time()
-sig = get_sig_dic(hash_num,len(sorted_username),user_dict,prime_minhash,num_hash_per_band)
-# sig = get_sig_dic(hash_num,user_dict,prime_minhash)
+# sig = get_sig_dic(hash_num,len(sorted_username),user_dict,prime_minhash)
+sig = get_sig_dic(hash_num,user_dict,prime_minhash)
 print("Signature matrix completed. Time : "+ str(time.time()-s))
 
 # ### find similar pairs
 # #sig = np.zeros((160,20000),dtype = int)
-# s = time.time()
-# pairs, final_pairs_ind = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
+s = time.time()
+pairs, final_pairs_ind = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
 # # print(pairs)
-# print(str(len(pairs)) + " pairs found. Time: " + str(time.time()-s))
+print(str(len(pairs)) + " pairs found. Time: " + str(time.time()-s))
 
 ### for a queried user
 

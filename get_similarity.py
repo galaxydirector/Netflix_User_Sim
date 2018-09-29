@@ -1,6 +1,11 @@
 import numpy as np
 import random
 import time
+# import threading
+# from queue import Queue
+import multiprocessing as mp
+from multiprocessing import Pool, cpu_count
+from tqdm import tqdm
 
 
 def find_prime(n):
@@ -10,6 +15,7 @@ def find_prime(n):
 		if i >= n:
 			return i
 
+#################################### Dumb version#############################
 def get_sig(num,data,r):
 	sig = np.empty((num,data.shape[1]),dtype = int)
 	for i in range(0,num):
@@ -22,28 +28,6 @@ def get_sig(num,data,r):
 					tempHash = (a*row+b) % r
 					tempMin = min(tempMin,tempHash)
 			sig[i][col] = tempMin
-	return sig
-
-def get_sig_dic_old(hash_num,user_num,user_dic,prime):
-	############# Yanci's Question: Is len(user_dic)==user_num? #############
-	############# if so, we could reduce a input ############################
-
-	sig = np.empty((hash_num,user_num),dtype = int)
-	for i in range(0,hash_num):
-		a = random.randint(0,prime-1)
-		b = random.randint(0,prime-1)
-		for user in user_dic.keys():
-			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
-	return sig
-
-def get_sig_dic(hash_num,user_dic,prime):
-	sig = np.empty((hash_num,len(user_dic)),dtype = int)
-
-	for i in range(0,hash_num):
-		a = random.randint(0,prime-1)
-		b = random.randint(0,prime-1)
-		for user in user_dic.keys():
-			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
 	return sig
 
 def find_sim(sig,thre,r,prime):
@@ -77,6 +61,19 @@ def find_sim(sig,thre,r,prime):
 		if(float(count)/float(sig.shape[0])>=thre):
 			final_pairs.append((i,j))
 	return final_pairs
+#################################### Dumb version#############################
+
+####################################fast version below#############################
+def get_sig_dic(hash_num,user_dic,prime):
+	sig = np.empty((hash_num,len(user_dic)),dtype = int)
+
+	for i in range(0,hash_num):
+		a = random.randint(0,prime-1)
+		b = random.randint(0,prime-1)
+		for user in user_dic.keys():
+			sig[i][user]=min(list(map(lambda x: (x*a+b)%prime, user_dic[user])))
+	return sig
+
 
 def find_sim_dic(sig,thre,r,prime,sorted_username):
 	'''
@@ -135,6 +132,7 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 	print("time to go through 4 for loops to find pairs: {}".format(time.time()-start))
 	##################################################################
 
+	start = time.time()
 	final_pairs = []
 	final_pairs_ind = []
 	for (i,j) in candidates:
@@ -143,33 +141,13 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 			final_pairs.append((sorted_username[i],sorted_username[j]))
 			final_pairs_ind.append((i,j))
 
+	print("final pairs takes {} seconds".format(time.time()-start) )
+	
+	
 
+	# np.savetxt('final_pairs.txt',final_pairs,delimiter=',')
+	# np.savetxt('final_pairs_ind.txt',final_pairs_ind,delimiter=',')
 
-
-
-
-	##################### attempt to multithread it 
-	final_pairs = []
-	final_pairs_ind = []
-	def hard_cock():
-		for (i,j) in candidates:
-			count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-			if(float(count)/float(sig.shape[0])>=thre):
-				final_pairs.append((sorted_username[i],sorted_username[j]))
-				final_pairs_ind.append((i,j))
-
-	# def start_threads(n_threads=4):
-	threads =[]
-	for _ in range(4):
-		thread = threading.Thread(target=hard_cock)
-		thread.daemon = True  # Thread will close when parent quits.
-		thread.start()
-		threads.append(thread)
-
-	[i.join() for i in threads]
-
-	np.savetxt('final_pairs.txt',final_pairs,delimiter=',')
-	np.savetxt('final_pairs_ind.txt',final_pairs_ind,delimiter=',')
 	return final_pairs, final_pairs_ind
 
 def jaccard_similarity(list_1, list_2):
@@ -179,10 +157,10 @@ def jaccard_similarity(list_1, list_2):
 	arr2 = np.array(list_2).reshape(-1,)
 
 	union = set()
-	union = union.add(user_dic[i])
-	union = union.add(user_dic[j])
+	union = union.add(arr1)
+	union = union.add(arr2)
 
-	intersection = user_dic[i].intersection(set(user_dic[j]))
+	intersection = set(arr1).intersection(set(arr2))
 	jaccard_similarity = len(intersection)/len(union)
 
 	return jaccard_similarity
@@ -194,9 +172,6 @@ def pair_similarity(user_dic,final_pairs_ind):
 		output.append(jaccard_sim)
 
 	return output
-
-
-
 
 
 # syn_data
@@ -212,3 +187,29 @@ def pair_similarity(user_dic,final_pairs_ind):
 
 
 
+# ##################### attempt to multithread it 
+# 	q1 = Queue()
+# 	q2 = Queue()
+# 	def hard_cock():
+# 		for (i,j) in candidates:
+# 			count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
+# 			if(float(count)/float(sig.shape[0])>=thre):
+# 				q1.put((sorted_username[i],sorted_username[j]))
+# 				q2.put((i,j))
+# 				# final_pairs.append((sorted_username[i],sorted_username[j]))
+# 				# final_pairs_ind.append((i,j))
+
+# 	# def start_threads(n_threads=4):
+# 	threads =[]
+# 	for _ in range(4):
+# 		print("multithread activate")
+# 		thread = threading.Thread(target=hard_cock)
+# 		thread.daemon = True  # Thread will close when parent quits.
+# 		thread.start()
+# 		threads.append(thread)
+
+# 	final_pairs = list(q1.queue)
+# 	final_pairs_ind = list(q2.queue)
+
+# 	[i.join() for i in threads]
+# 	print("multithread finished")
