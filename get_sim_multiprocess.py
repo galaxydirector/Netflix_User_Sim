@@ -127,7 +127,7 @@ def jaccard_similarity(list_1, list_2):
 	arr1 = np.array(list_1).reshape(-1,)
 	arr2 = np.array(list_2).reshape(-1,)
 
-	return 1-(len(set(arr1).intersection(arr2)))/len(set(arr1+arr2))
+	return (len(set(arr1).intersection(set(arr2))))/len(set(arr1).union(set(arr2)))
 
 def pair_similarity(user_dic,final_pairs_ind):
 	output = []
