@@ -81,7 +81,7 @@ class find_sim_dic():
 						# candidates.add((l[i],l[j])) where l[i] is the index of users
 			a = a + 1
 		print(str(len(candidates))+" condidates found!")
-		print("time to go through for loops to find pairs: {}".format(time.time()-start))
+		print("Time to go through for loops to find pairs: {} seconds".format(int(time.time()-start)))
 
 		return candidates
 
@@ -104,7 +104,7 @@ class find_sim_dic():
 		candidates = list(self.find_candidates())
 		split_from = int(len(candidates)/NUM_PROCESSES)
 		splited_list = [candidates[i:i + split_from] for i in range(0, len(candidates), split_from)]
-		print("len of splited_list", len(splited_list))
+		print("Len of splited_list", len(splited_list))
 
 		with Pool(processes=NUM_PROCESSES) as p:
 			with tqdm(total=NUM_JOBS, desc='Parallel Processing') as pbar:
@@ -112,11 +112,11 @@ class find_sim_dic():
 					pbar.update()
 
 		final_pairs_ind = []
-		print("dumping the queue into a list")
+		print("Dumping the queue into a list")
 		while self.queue.empty() is False:
 			final_pairs_ind.append(self.queue.get())
 
-		print("pairs found {}".format(len(final_pairs_ind)))	
+		print("Pairs found {}".format(len(final_pairs_ind)))	
 		return final_pairs_ind
 
 def jaccard_similarity(list_1, list_2):
@@ -130,10 +130,11 @@ def jaccard_similarity(list_1, list_2):
 	return len(set(arr1).intersection(set(arr2)))/len(set(arr1).union(set(arr2)))
 
 def pair_similarity(user_dic,final_pairs_ind):
+
 	output = []
 	for (i,j) in final_pairs_ind:
 		jaccard_sim= jaccard_similarity(user_dic[i],user_dic[j])
-		if jaccard_sim >0.65:
-			output.append(jaccard_sim)
+		if jaccard_sim>=0.65:
+			output.append((i,j))
 
 	return output
