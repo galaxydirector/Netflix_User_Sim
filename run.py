@@ -28,9 +28,9 @@ data_dict, user_dict, sorted_username = convert_into_dict(final_rows_wo_movienam
 print("Conversion to dictionary completed. Time: " + str(int(time.time()-s))+" seconds") 
 
 # ############### Problem 2
-# avg_dist, min_dist = output_avg_min_img(user_dict)
-# # print("avg_dist",avg_dist) # result: 0.98
-# # print("min_dist",min_dist) # result: 0.5
+avg_dist, min_dist = output_avg_min_img(user_dict)
+print("avg_dist",avg_dist) # result: 0.98
+print("min_dist",min_dist) # result: 0.5
 
 ################ Problem  3 & 4
 ### find similar pairs
@@ -40,7 +40,7 @@ print("Signature matrix completed. Time : "+ str(int(time.time()-s))+" seconds")
 
 ### find similar pairs
 s = time.time()
-sim_class = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_username)
+sim_class = find_sim_dic(sig,threshold,length_per_band,prime_bucket)
 final_pairs_ind = sim_class.findpairs_multiprocess()
 print(str(len(final_pairs_ind)) + " pairs found. Time: " + str(int(time.time()-s))+" seconds")
 

@@ -20,13 +20,11 @@ class find_sim_dic():
 	def __init__(self,sig,
 				thre,
 				r,
-				prime,
-				sorted_username):
+				prime):
 		self.sig = sig
 		self.thre = thre
 		self.r = r
 		self.prime = prime
-		self.sorted_username = sorted_username
 		self.queue = mp.Manager().Queue()
 
 	def find_candidates(self):
