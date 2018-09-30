@@ -1,11 +1,12 @@
-def get_queried_user(user_dic, sorted_username, queried_user_id):
-	user_index = sorted_username.index(queried_user_id)
-	min_dis = 1
-	curr_nearest = -1
+def get_queried_user(user_dic, sorted_username, queried_user_list):
+	'''
+	user_dic: previously generated dictionary, key:value = user_index:movie_list
+	sorted_username: a sorted user_id list, use this to look up the real user_id via user_index
+	queried_user_list: a favorate movie list for the queried user
+	'''
+	nearest = []
 	for i in range(len(user_dic)):
-		if(i != user_index):
-			curr_dis = 1-(len(set(user_dic[user_index]).intersection(set(user_dic[i]))))/len(set(user_dic[user_index]+user_dic[i]))
-			if(curr_dis<min_dis):
-				min_dis = curr_dis
-				curr_nearest = i
-	return sorted_username[i]
+		curr_dis = 1-(len(set(queried_user_list).intersection(set(user_dic[i]))))/len(set(queried_user_list+user_dic[i]))
+		if(curr_dis<0.35):
+			nearest.append(sorted_username[i])
+	return nearest
