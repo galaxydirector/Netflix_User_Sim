@@ -1,7 +1,6 @@
 from preprocessing import *
 from get_sim_multiprocess import *
 from thousand_jaccard import *
-from multiprocess import *
 import time
 import numpy as np
 # import tensorflow as tf
