@@ -12,7 +12,7 @@ import csv
 hash_num = 161
 prime_minhash = 4507
 threshold = 0.65
-length_per_band = 
+length_per_band = 7
 prime_bucket = 4523
 path = os.path.expanduser('./Netflix_data.txt')
 #path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
