@@ -28,6 +28,7 @@ class find_sim_dic():
 		self.prime = prime
 		self.sorted_username = sorted_username
 		self.final_pairs_ind = []
+		self.queue = mp.Manager().Queue()
 
 	def find_candidates(self):
 		'''
@@ -81,7 +82,7 @@ class find_sim_dic():
 						# candidates.add((l[i],l[j])) where l[i] is the index of users
 			a = a + 1
 		print(str(len(candidates))+" condidates found!")
-		print("time to go through 4 for loops to find pairs: {}".format(time.time()-start))
+		print("time to go through for loops to find pairs: {}".format(time.time()-start))
 
 		return candidates
 
@@ -95,8 +96,7 @@ class find_sim_dic():
 		for (i,j) in tqdm(data):
 			count = sum(self.sig[:,i].reshape(-1)==self.sig[:,j].reshape(-1))
 			if(float(count)/float(self.sig.shape[0])>=self.thre):
-				#return (self.sorted_username[i],self.sorted_username[j]), (i,j)
-				self.final_pairs_ind.append((i,j))
+				self.queue.put((i,j))
 
 	def findpairs_multiprocess(self):
 		NUM_PROCESSES = 4 # number of cores you want to ultilize
@@ -112,4 +112,10 @@ class find_sim_dic():
 				for result_index in p.imap_unordered(self.soft_cock, splited_list):
 					pbar.update()
 
-		return self.final_pairs_ind
+		final_pairs_ind = []
+		print("dump the queue into a list")
+		while self.queue.empty() is False:
+			final_pairs_ind.append(self.queue.get())
+
+		print("pairs found {}".format(len(final_pairs_ind)))	
+		return final_pairs_ind
