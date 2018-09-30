@@ -8,10 +8,10 @@ import numpy as np
 
 
 ### seting all the parameters
-hash_num = 161
+hash_num = 160
 prime_minhash = 4507
 threshold = 0.65
-length_per_band = 7
+length_per_band = 5
 prime_bucket = 4523
 
 ### start preprocessing 
