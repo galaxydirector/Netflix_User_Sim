@@ -179,32 +179,3 @@ def pair_similarity(user_dic,final_pairs_ind):
 #pairs = find_sim(sig,0.5)
 #pairs = find_sim(sig,0.65,20,23)
 #print(pairs)
-
-
-
-# ##################### attempt to multithread it 
-# 	q1 = Queue()
-# 	q2 = Queue()
-# 	def hard_cock():
-# 		for (i,j) in candidates:
-# 			count = sum(sig[:,i].reshape(-1)==sig[:,j].reshape(-1))
-# 			if(float(count)/float(sig.shape[0])>=thre):
-# 				q1.put((sorted_username[i],sorted_username[j]))
-# 				q2.put((i,j))
-# 				# final_pairs.append((sorted_username[i],sorted_username[j]))
-# 				# final_pairs_ind.append((i,j))
-
-# 	# def start_threads(n_threads=4):
-# 	threads =[]
-# 	for _ in range(4):
-# 		print("multithread activate")
-# 		thread = threading.Thread(target=hard_cock)
-# 		thread.daemon = True  # Thread will close when parent quits.
-# 		thread.start()
-# 		threads.append(thread)
-
-# 	final_pairs = list(q1.queue)
-# 	final_pairs_ind = list(q2.queue)
-
-# 	[i.join() for i in threads]
-# 	print("multithread finished")
