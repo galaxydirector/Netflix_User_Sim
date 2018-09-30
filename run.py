@@ -9,10 +9,10 @@ import csv
 
 
 ### seting all the parameters
-hash_num = 160
+hash_num = 161
 prime_minhash = 4507
 threshold = 0.65
-length_per_band = 5
+length_per_band = 
 prime_bucket = 4523
 path = os.path.expanduser('./Netflix_data.txt')
 #path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
@@ -52,15 +52,13 @@ print(str(len(output)) + " pairs found after comparing the original data.Time: "
 # write the output pairs to csv
 with open('similarPairs.csv','w') as writeFile:
   similarWriter = csv.writer(writeFile, delimiter=',')
-
   for i in range(len(output)):
     similarWriter.writerow([output[i][0], output[i][1]])
 
-# ############### Problem 5
-#test_queried_user_list = [random.randint(0,4498) for i in range(60)]
-#s = time.time()
-#nearest_neighbor = get_queried_user(user_dict, sorted_username, user_dict[4])
-#print(str(len(nearest_neighbor)) + " nearest neighbor found.Time: " + str(int(time.time()-s))+"seconds") # less than 1s
+############### Problem 5
+s = time.time()
+nearest_neighbor = get_queried_user(user_dict, sorted_username, queried_user_list = user_dict[4])
+print(str(len(nearest_neighbor)) + " nearest neighbor found.Time: " + str(int(time.time()-s))+"seconds") # less than 1s
 
 print("Total time for this application: " +str(int((time.time()-start)/60))+" mins")
 
