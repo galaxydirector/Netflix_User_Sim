@@ -27,7 +27,6 @@ class find_sim_dic():
 		self.r = r
 		self.prime = prime
 		self.sorted_username = sorted_username
-		self.final_pairs_ind = []
 		self.queue = mp.Manager().Queue()
 
 	def find_candidates(self):
@@ -113,9 +112,28 @@ class find_sim_dic():
 					pbar.update()
 
 		final_pairs_ind = []
-		print("dump the queue into a list")
+		print("dumping the queue into a list")
 		while self.queue.empty() is False:
 			final_pairs_ind.append(self.queue.get())
 
 		print("pairs found {}".format(len(final_pairs_ind)))	
 		return final_pairs_ind
+
+def jaccard_similarity(list_1, list_2):
+	'''
+	list_1/list_2: 2 integer lists
+	return: jaccard_distance as a float
+	'''
+	arr1 = np.array(list_1).reshape(-1,)
+	arr2 = np.array(list_2).reshape(-1,)
+
+	return 1-(len(set(arr1).intersection(arr2)))/len(set(arr1+arr2))
+
+def pair_similarity(user_dic,final_pairs_ind):
+	output = []
+	for (i,j) in final_pairs_ind:
+		jaccard_sim= jaccard_similarity(user_dic[i],user_dic[j])
+		if jaccard_sim >0.65:
+			output.append(jaccard_sim)
+
+	return output

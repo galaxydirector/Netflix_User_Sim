@@ -36,6 +36,9 @@ sim_class = find_sim_dic(sig,threshold,length_per_band,prime_bucket,sorted_usern
 final_pairs_ind = sim_class.findpairs_multiprocess()
 print("{} pairs found. Time: {}".format(len(final_pairs_ind),str(time.time()-s)))
 
+### compare final pairs by sig matrix and actual pair by checking in user_dict
+pair_close = pair_similarity(user_dict,final_pairs_ind)
+print("number of pairs through sig matrix are actually close {}".format(len(pair_close)))
 
 ### for a queried user
 
