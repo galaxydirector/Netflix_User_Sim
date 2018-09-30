@@ -1,6 +1,7 @@
 from preprocessing import *
 from get_sim_multiprocess import *
 from thousand_jaccard import *
+from get_queried_user import *
 import time
 import numpy as np
 import csv
@@ -14,8 +15,8 @@ prime_minhash = 4507
 threshold = 0.65
 length_per_band = 7
 prime_bucket = 4523
-path = os.path.expanduser('./Netflix_data.txt')
-#path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
+# path = os.path.expanduser('./Netflix_data.txt')
+path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
 
 start = time.time()
 # ############### Problem 1
