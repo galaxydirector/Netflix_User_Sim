@@ -9,6 +9,7 @@ path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE5
 def import_preprocess(path):
 	####################### 1. read txt
 	file_path = os.path.expanduser(path)
+	print("importing table, it would be two minutes")
 	x = pd.read_table(file_path, sep=',|\t',engine='python', names=('user', 'rate', 'date'))
 
 	####################### 2. df[df['rate']>3] =1
@@ -109,16 +110,6 @@ def convert_dict_to_matrix(sorted_username, movie_row, data_dict):
 
 	matrix_output = np.zeros(shape=matrix_shape,dtype=int)
 	for movie in range(len(movie_row)):
-		#len(movie_row)
-		#given a list of users, find the index in sorted_username
-		#s1 = time.time()
-
-		# users = data_dict[movie]
-		# ############################
-		# #index_list = [sorted_username.index(i) for i in users]
-		# index_list = [user_dic[i] for i in users]
-		# ############################
-
 		users_index = data_dict[movie]
 
 		# have the row to be 1 at index, else to be 0

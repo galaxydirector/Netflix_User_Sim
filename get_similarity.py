@@ -111,7 +111,7 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 
 	##################################################################
 	# this is a counter?
-	start = time.time()
+	start_counter = time.time()
 	candidates = set()
 	a = 1
 	for bucket in buckets:
@@ -129,7 +129,7 @@ def find_sim_dic(sig,thre,r,prime,sorted_username):
 					# candidates.add((l[i],l[j])) where l[i] is the index of users
 		a = a + 1
 	print(str(len(candidates))+" condidates found!")
-	print("time to go through 4 for loops to find pairs: {}".format(time.time()-start))
+	print("time to go through for loops to find pairs: {}".format(time.time()-start_counter))
 	##################################################################
 
 	start = time.time()
