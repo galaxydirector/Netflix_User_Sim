@@ -59,7 +59,7 @@ with open('similarPairs.csv','w') as writeFile:
 ############### Problem 5
 s = time.time()
 nearest_neighbor = get_queried_user(user_dict, sorted_username, queried_user_list = user_dict[4])
-print(str(len(nearest_neighbor)) + " nearest neighbor found.Time: " + str(int(time.time()-s))+"seconds") # less than 1s
+print("Nearest neighbor Time: " + str(int(time.time()-s))+"seconds") # less than 1s
 
 print("Total time for this application: " +str(int((time.time()-start)/60))+" mins")
 
