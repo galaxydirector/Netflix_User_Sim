@@ -10,10 +10,10 @@ import csv
 
 
 ### seting all the parameters
-hash_num = 161
+hash_num = 1000
 prime_minhash = 4507
 threshold = 0.65
-length_per_band = 7
+length_per_band = 10
 prime_bucket = 4523
 # path = os.path.expanduser('./Netflix_data.txt')
 path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
@@ -59,7 +59,7 @@ with open('similarPairs.csv','w') as writeFile:
 ############### Problem 5
 s = time.time()
 nearest_neighbor = get_queried_user(user_dict, sorted_username, queried_user_list = user_dict[4])
-print("Nearest neighbor Time: " + str(int(time.time()-s))+"seconds") # less than 1s
+print("Nearest neighbor takes Time: " + str(int(time.time()-s))+"seconds") # less than 1s
 
 print("Total time for this application: " +str(int((time.time()-start)/60))+" mins")
 
