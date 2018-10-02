@@ -3,8 +3,8 @@ import pandas as pd
 import os
 import time
 
-path = os.path.expanduser('./Netflix_data.txt')
-#path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
+# path = os.path.expanduser('./Netflix_data.txt')
+path = os.path.expanduser('/home/aitrading/Desktop/google_drive/Course_Work/ESE545/Projects/Project_1_Netflix_data.txt/Netflix_data.txt')
 
 def import_preprocess(path):
 	####################### 1. read txt
@@ -85,5 +85,3 @@ def convert_dict_to_matrix(sorted_username, movie_row, data_dict):
 			print("processing movie No. {}".format(movie))
 
 	return matrix_output
-
-
